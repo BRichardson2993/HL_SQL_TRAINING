@@ -109,12 +109,103 @@
 --on d.DeptNo = e.DeptNo; 
 
 
--- Outer Joins that join more than 2 tables
+-- OUTER JOINS THAT JOIN MORE THAN 2 TABLES
 
-SELECT DeptName, LastName, ProjectNo
-FROM Departments d
-	LEFT JOIN Employees e
-		ON d.DeptNo = e.DeptNo
-	LEFT JOIN Projects p
-		ON e.EmployeeID = p.EmployeeID
-ORDER BY DeptName, LastName, ProjectNo;
+-- joining 3 tables using left outer joins
+--SELECT DeptName, LastName, ProjectNo
+--FROM Departments d
+--	LEFT JOIN Employees e
+--		ON d.DeptNo = e.DeptNo
+--	LEFT JOIN Projects p
+--		ON e.EmployeeID = p.EmployeeID
+--ORDER BY DeptName, LastName, ProjectNo;
+
+
+-- joining 3 tables using full outer joins
+--SELECT DeptName, LastName, ProjectNo
+--FROM Departments d
+--	FULL JOIN Employees e
+--		ON d.DeptNo = e.DeptNo
+--	FULL JOIN Projects p
+--		ON e.EmployeeID = p.EmployeeID
+--ORDER BY DeptName;
+
+
+-- COMBINING INNER AND OUTER JOINS
+
+--SELECT DeptName, LastName, ProjectNo
+--FROM Departments d
+--	JOIN Employees e 
+--		ON d.DeptNo = e.DeptNo
+--	LEFT JOIN Projects p
+--		ON e.EmployeeID = p.EmployeeID
+--ORDER BY DeptName;
+
+
+-- CROSS JOIN
+
+--SELECT d.DeptNo, DeptName, EmployeeID, LastName
+--FROM Departments d
+--	CROSS JOIN Employees e
+--ORDER BY d.DeptNo;
+
+--Just for comparison to below union 
+--SELECT * FROM ActiveInvoices;
+--SELECT * FROM PaidInvoices;
+
+-- UNIONS
+
+--Use Examples; <-- Use this statement to actually use the Examples database
+--SELECT 'Active' as Source, InvoiceNumber, InvoiceDate, InvoiceTotal
+--FROM ActiveInvoices
+--WHERE InvoiceDate >= '01/01/2020'
+--UNION
+--SELECT 'Paid' as Source, InvoiceNumber, InvoiceDate, InvoiceTotal
+--FROM PaidInvoices
+--WHERE InvoiceDate >= '01/01/2020'
+--ORDER BY InvoiceTotal DESC;
+
+-- a union combining data from the same table
+
+--use AP;
+--SELECT InvoiceNumber, VendorName, '33% Payment' AS PaymentType, InvoiceTotal as Total, (InvoiceTotal * 0.333) as Payment
+--FROM Invoices i 
+--	JOIN Vendors v
+--	ON i.VendorID = v.VendorID
+--WHERE InvoiceTotal > 10000
+--UNION
+--SELECT InvoiceNumber, VendorName, '50% Payment' AS PaymentType, InvoiceTotal as Total, (InvoiceTotal * 0.5) as Payment
+--FROM Invoices i 
+--	JOIN Vendors v
+--	ON i.VendorID = v.VendorID
+--WHERE InvoiceTotal BETWEEN 500 AND 10000
+--UNION
+--SELECT InvoiceNumber, VendorName, 'Full Amount' AS PaymentType, InvoiceTotal as Total, InvoiceTotal as Payment
+--FROM Invoices i 
+--	JOIN Vendors v
+--	ON i.VendorID = v.VendorID
+--WHERE InvoiceTotal < 500
+--ORDER BY PaymentType, VendorName, InvoiceNumber;
+
+
+-- EXCEPT and INTERSECT
+
+-- using EXCEPT to show all those listed in Customers UNLESS they appear also in Employees
+--Use Examples;
+--SELECT CustomerFirst, CustomerLast
+--FROM Customers
+--EXCEPT
+--SELECT FirstName, LastName
+--FROM EMPLOYEES
+--ORDER BY CustomerLast;
+
+-- using INTERSECT to show all listed in BOTH Employees and Customers
+--Use Examples;
+--SELECT CustomerFirst, CustomerLast
+--FROM Customers
+--INTERSECT
+--SELECT FirstName, LastName
+--FROM EMPLOYEES 
+--ORDER BY CustomerLast;
+
+
